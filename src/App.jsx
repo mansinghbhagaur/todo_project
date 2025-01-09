@@ -1,15 +1,24 @@
-import { ThemeProvider } from "./context/ThemeContext";
-import Header from "./components/Header";
-import User from "./components/User";
-import { Box, CssBaseline } from "@mui/material";
+import React from 'react'
+import Header from './Components/Header'
+import Form from './Components/Form'
+import TableData from './Components/TableData'
+import { Box } from '@mui/material'
 
 const App = () => {
   return (
-    <ThemeProvider>
+    <Box
+    sx={{
+   width:"100%",
+   height:"100vh",
+   bgcolor:"background.default",
+   color:"text.secondary"
+    }}
+    >
       <Header />
-      <User/>
-    </ThemeProvider>
-  );
-};
+      <Form/>
+      <TableData/>
+    </Box>
+  )
+}
 
-export default App;
+export default App
