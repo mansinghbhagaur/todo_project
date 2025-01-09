@@ -1,38 +1,40 @@
-import { Box, Paper, Container, TextField, IconButton, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box,Paper,Container,TextField,IconButton,Typography,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,
+} from "@mui/material";
 import { MdAdd } from "react-icons/md";
 import { useState, useEffect } from "react";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const User = () => {
-  const [inputText, setInputText] = useState(""); 
+  const [inputText, setInputText] = useState("");
   const [inputDate, setInputDate] = useState("");
   const [editLogo, setEditLogo] = useState(true);
   const [data, setData] = useState([]);
-  const [editIndex, setEditIndex] = useState(null); 
+  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
-    const savedData = localStorage.getItem('data');
+    const savedData = localStorage.getItem("data");
     if (savedData) {
-      setData(JSON.parse(savedData)); 
+      setData(JSON.parse(savedData));
     }
   }, []);
-    
+
   useEffect(() => {
     if (data.length > 0) {
-      localStorage.setItem('data', JSON.stringify(data)); 
+      localStorage.setItem("data", JSON.stringify(data));
     }
   }, [data]);
-    
+
   const handleAddData = () => {
     if (inputText && inputDate) {
-      if (editLogo) {
+      if (editLogo === "Form") {
         setData([...data, { text: inputText, date: inputDate }]);
       } else {
-        const updatedData = data.map((item, index) => 
-          index === editIndex ? { text: inputText, date: inputDate } : item
+        setData(
+          data.map((value, index) =>
+            index === editIndex ? { text: inputText, date: inputDate } : value
+          )
         );
-        setData(updatedData);
         setEditLogo(true);
       }
       setInputText("");
@@ -46,29 +48,31 @@ const User = () => {
   const editData = (index) => {
     setEditLogo(false);
     setEditIndex(index);
-    setInputText(data[index].text); 
-    setInputDate(data[index].date); 
+    setInputText(data[index].text);
+    setInputDate(data[index].date);
   };
-     
+
   const deleteData = (index) => {
-    const updatedData = data.filter((val, i) => i !== index); 
+    const updatedData = data.filter((val, i) => i !== index);
     setData(updatedData);
   };
 
   return (
     <Box m={5} fullWidth>
-      <Container 
+      <Container
         maxWidth="sm"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           gap: 2,
-          alignItems: 'center',
+          alignItems: "center",
           paddingTop: 2,
         }}
       >
         <Box>
-          <Typography variant="h5">{editLogo ? "Form" : "Edit Form"}</Typography>
+          <Typography variant="h5">
+            {editLogo ? "Form" : "Edit Form"}
+          </Typography>
           <Paper elevation={2} p={5}>
             <TextField
               label="Enter Text"
@@ -85,23 +89,25 @@ const User = () => {
               onChange={(e) => setInputDate(e.target.value)}
             />
           </Paper>
-          <IconButton
-            color="primary"
-            aria-label="add"
-            onClick={handleAddData}
-          >
-            {editLogo ? <MdAdd size={30} /> : <EditIcon size={30}/>}
+          <IconButton color="primary" aria-label="add" onClick={handleAddData}>
+            {editLogo ? <MdAdd size={30} /> : <EditIcon size={30} />}
           </IconButton>
         </Box>
       </Container>
-        
+
       <TableContainer component={Paper} fullWidth>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ textAlign: "center" }}><strong>Text</strong></TableCell>
-              <TableCell sx={{ textAlign: "center" }}><strong>Date</strong></TableCell>
-              <TableCell sx={{ textAlign: "center" }}><strong>Action</strong></TableCell>
+              <TableCell sx={{ textAlign: "center" }}>
+                <strong>Text</strong>
+              </TableCell>
+              <TableCell sx={{ textAlign: "center" }}>
+                <strong>Date</strong>
+              </TableCell>
+              <TableCell sx={{ textAlign: "center" }}>
+                <strong>Action</strong>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -122,7 +128,7 @@ const User = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Box> 
+    </Box>
   );
 };
 
