@@ -10,14 +10,14 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 export default function Header() {
   const {mode , toggleTheme} = useThemeContext()
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1}}>
       <AppBar position="static" color='error'>
         <Toolbar >
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Todo
           </Typography>
           <IconButton onClick={toggleTheme}>
-               {mode === 'light' ? <DarkModeIcon/> : <WbSunnyIcon color='inherit'/>}
+               {mode === 'light' ? <WbSunnyIcon/> : <DarkModeIcon color='inherit'/>}
  
           </IconButton>
         </Toolbar>
