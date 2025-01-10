@@ -6,8 +6,8 @@ const TableData = () => {
       return (
             <Container component={Paper} elevation={3} maxWidth='md' sx={{ p: 4, mt: 5 }}>
                   <Typography textAlign={'center'} variant='h5' gutterBottom>Table Data Show</Typography>
-                  <Paper sx={{ width: '100%' }} elevation={5}>
-                        <Table>
+                  <Paper elevation={5}>
+                        <Table sx={{ maxHeight: '400px' }}>
                               <TableHead>
                                     <TableRow>
                                           <TableCell>Todo Name</TableCell>
