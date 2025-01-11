@@ -9,7 +9,7 @@ export const reducer = (state, action) => {
                   ))
             }
             case 'DELETE_ITEM': {
-                  return state.filter((item) => item.id !== action.payload.id)
+                  return state.filter((item) => item.id !== action.payload)
             }
             default: {
                   return state;

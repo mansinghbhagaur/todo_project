@@ -5,11 +5,14 @@ import TableData from './components/TableData'
 import { Box } from '@mui/material'
 import { useLocalStorageReducer } from './hooks/useLocalStorageReducer'
 import { reducer } from './reducer/todoReducer'
+import SnackbarAlert from './components/SnackbarAlert'
 const App = () => {
   const [tasks, dispatch] = useLocalStorageReducer('tasks', reducer, []);
-  const [task, setTask] = useState({ task: '', date: '' });
+  const [task, setTask] = useState({ text: '', date: '' });
   const [isEdit, setIsEdit] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [snackbar, setSnackbar] = useState({ type: 'success', message: '', open: false });
 
 
   const handleInputChange = (e) => {
@@ -23,7 +26,7 @@ const App = () => {
     e.preventDefault();
 
     // check condition 
-    if (!task.text || !task.date) return alert('Dono filled bhare');
+    if (!task.text || !task.date) return setSnackbar({ open: true, type: 'error', message: 'Please fill all fields' });
 
     if (isEdit) {
       dispatch({ type: 'EDIT_ITEM', payload: { id: editId, ...task } });
@@ -31,6 +34,7 @@ const App = () => {
       setEditId(null);
     } else {
       dispatch({ type: 'ADD_ITEM', payload: task });
+      setSnackbar({ open: true, type: 'success', message: 'Task added successfully' });
     }
     setTask({ task: '', date: '' });
   }
@@ -45,8 +49,14 @@ const App = () => {
 
   // delete task
   const handleDeleteTask = (id) => {
+
     dispatch({ type: 'DELETE_ITEM', payload: id });
-    alert('deleted task');
+    // alert('deleted task');
+    setSnackbar({ open: true, type: 'success', message: 'Task deleted successfully' });
+  }
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ open: false, type: '', message: '' });
   }
 
   return (
@@ -56,8 +66,9 @@ const App = () => {
       minHeight: '98vh',
     }}>
       <Header />
-      <Form handleAddTask={handleAddTask} task={task} handleInputChange={handleInputChange} />
+      <Form handleAddTask={handleAddTask} isEdit={isEdit} task={task} handleInputChange={handleInputChange} />
       <TableData tasks={tasks} handleEdit={handleEdit} handleDeleteTask={handleDeleteTask} />
+      <SnackbarAlert handleCloseSnackbar={handleCloseSnackbar} snackbar={snackbar} />
     </Box>
   )
 }
